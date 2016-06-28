@@ -15,14 +15,13 @@
                 <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTj-Fq-cK9">
                     <rect key="frame" x="0.0" y="0.0" width="655" height="50"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5as-eL-HCH">
-                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5as-eL-HCH">
+                            <rect key="frame" x="0.0" y="10" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="5as-eL-HCH" secondAttribute="height" multiplier="1:1" id="KmJ-m2-HTs"/>
                                 <constraint firstAttribute="width" constant="46" id="fv5-T8-nQB"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <state key="normal" title="退出全屏">
+                            <state key="normal" image="nav_back">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <variation key="default">
@@ -39,7 +38,7 @@
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="tTj-Fq-cK9" secondAttribute="height" multiplier="655:50" id="D9l-ic-xm7"/>
-                        <constraint firstItem="5as-eL-HCH" firstAttribute="top" secondItem="tTj-Fq-cK9" secondAttribute="top" id="UEo-DZ-S2S"/>
+                        <constraint firstItem="5as-eL-HCH" firstAttribute="top" secondItem="tTj-Fq-cK9" secondAttribute="top" constant="10" id="UEo-DZ-S2S"/>
                         <constraint firstAttribute="bottom" secondItem="5as-eL-HCH" secondAttribute="bottom" id="Ygv-he-4qo"/>
                         <constraint firstItem="5as-eL-HCH" firstAttribute="leading" secondItem="tTj-Fq-cK9" secondAttribute="leading" id="mbm-f9-f9M"/>
                     </constraints>
@@ -52,7 +51,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="OLT-ED-U7m" secondAttribute="height" multiplier="1:1" id="9P4-Uq-3qo"/>
                             </constraints>
-                            <state key="normal" backgroundImage="ad_pause_f_p.png"/>
+                            <state key="normal" backgroundImage="ad_pause_f_p"/>
                             <connections>
                                 <action selector="playOrPauseButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="TaP-Hr-oZZ"/>
                             </connections>
@@ -90,7 +89,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="fbu-mx-Ows" secondAttribute="height" multiplier="1:1" id="5VM-GM-6iY"/>
                             </constraints>
-                            <state key="normal" backgroundImage="play_full_f_p.png"/>
+                            <state key="normal" backgroundImage="play_full_f_p"/>
                             <connections>
                                 <action selector="exitOrInFullScreen:" destination="iN0-l3-epB" eventType="touchUpInside" id="s4E-D8-WMQ"/>
                             </connections>
@@ -123,7 +122,24 @@
                 </activityIndicatorView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YnK-FQ-f8W">
                     <rect key="frame" x="0.0" y="50" width="655" height="317"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hT2-rn-95e">
+                            <rect key="frame" x="15" y="139" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="3PJ-gB-Ufr"/>
+                                <constraint firstAttribute="height" constant="40" id="880-3P-GBb"/>
+                            </constraints>
+                            <state key="normal" image="play_unlock"/>
+                            <connections>
+                                <action selector="lockScreen:" destination="iN0-l3-epB" eventType="touchUpInside" id="mNd-sQ-mL9"/>
+                            </connections>
+                        </button>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="hT2-rn-95e" firstAttribute="centerY" secondItem="YnK-FQ-f8W" secondAttribute="centerY" id="Edo-3l-cMT"/>
+                        <constraint firstItem="hT2-rn-95e" firstAttribute="leading" secondItem="YnK-FQ-f8W" secondAttribute="leading" constant="15" id="Vat-WA-FDZ"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -148,6 +164,7 @@
                 <outlet property="clearView" destination="YnK-FQ-f8W" id="wMl-U2-asr"/>
                 <outlet property="exitOrInScreenBt" destination="fbu-mx-Ows" id="OV7-2R-hRs"/>
                 <outlet property="exitScreenBtn" destination="5as-eL-HCH" id="un2-Zd-OfK"/>
+                <outlet property="lockButton" destination="hT2-rn-95e" id="Ojp-cf-vpP"/>
                 <outlet property="playOrPauseBtn" destination="OLT-ED-U7m" id="tck-Mb-vvq"/>
                 <outlet property="timeLabel" destination="6MI-iv-vW7" id="Y7M-ax-Aw7"/>
                 <outlet property="topView" destination="tTj-Fq-cK9" id="N79-vC-mC2"/>
@@ -159,7 +176,9 @@
         </view>
     </objects>
     <resources>
-        <image name="ad_pause_f_p.png" width="100" height="100"/>
-        <image name="play_full_f_p.png" width="40" height="40"/>
+        <image name="ad_pause_f_p" width="40" height="40"/>
+        <image name="nav_back" width="9" height="17"/>
+        <image name="play_full_f_p" width="40" height="40"/>
+        <image name="play_unlock" width="25" height="22"/>
     </resources>
 </document>

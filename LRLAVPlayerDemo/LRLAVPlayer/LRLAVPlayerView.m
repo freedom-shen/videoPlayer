@@ -45,6 +45,8 @@
     BOOL _canFullScreen;
     //判断是否为第一次布局
     BOOL _isFisrtConfig;
+    // 判断是否已锁
+    BOOL _isLock;
 }
 
 /**
@@ -113,6 +115,11 @@
 @property (nonatomic, strong) LRLLightView * lightView;
 
 /**
+ *  锁按钮
+ */
+@property (weak, nonatomic) IBOutlet UIButton *lockButton;
+
+/**
  *  @b 给显示亮度的view添加毛玻璃效果
  */
 @property (nonatomic, strong) UIVisualEffectView * effectView;
@@ -146,6 +153,7 @@
  *  @b avplayerItem主要用来监听播放状态
  */
 @property (nonatomic, strong) AVPlayerItem * avplayerItem;
+
 
 /**
  *  @b avplayer播放器
@@ -201,7 +209,9 @@
     self.userInteractionEnabled = NO;
     self.multipleTouchEnabled = YES;
     self.exitScreenBtn.hidden = YES;
+    self.lockButton.hidden = YES;
     self.controlType = noneControl;
+    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_mini_f_p"] forState:UIControlStateNormal];
     _isFisrtConfig = YES;
     _canFullScreen = NO;
     _isFullScreen = NO;
@@ -210,12 +220,18 @@
         _isPlaying = YES;
     }
     
+    [self.lockButton setImage:[UIImage imageNamed:@"play_unlock"] forState:UIControlStateNormal];
+    [self.lockButton setImage:[UIImage imageNamed:@"play_lock"] forState:UIControlStateSelected];
+    
+    self.lockButton.layer.cornerRadius = 20;
+    self.lockButton.layer.masksToBounds = YES;
+    self.lockButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
 }
 
 #pragma mark - 对xib拖拽的progressView和Slider重新布局
 -(void)reConfigSlider{
-    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select.png"] forState:UIControlStateNormal];
-    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select.png"] forState:UIControlStateHighlighted];
+    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select"] forState:UIControlStateNormal];
+    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select"] forState:UIControlStateHighlighted];
     self.videoSlider.maximumTrackTintColor = [UIColor clearColor];
     self.videoProgressView.userInteractionEnabled = YES;
     _tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(progressTapAct:)];
@@ -350,6 +366,10 @@
 
 #pragma mark - 用touch这几个方法来判断, 是进度控制 . 音量控制. 还是亮度控制, 并作出相应的计算
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{   //触摸开始
+    
+    if(_isLock) {
+        return;
+    }
     //这个是用来判断, 如果有多个手指点击则不做出响应
     UITouch * touch = (UITouch *)touches.anyObject;
     if (touches.count > 1 || [touch tapCount] > 1 || event.allTouches.count > 1) {
@@ -373,6 +393,9 @@
 }
 //触摸过程中
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    if(_isLock) {
+        return;
+    }
     UITouch * touch = (UITouch *)touches.anyObject;
     if (touches.count > 1 || [touch tapCount] > 1  || event.allTouches.count > 1) {
         return;
@@ -442,6 +465,14 @@
 }
 //触摸结束
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    if(_isLock) {
+        if (self.lockButton.hidden) {
+            [self controlViewOutHidden];
+        }else{
+            [self controlViewHidden];
+        }
+        return;
+    }
     AVDLog(@"touch ending");
 //    if (touches.count > 1 || event.allTouches.count > 1) {
 //        return;
@@ -487,9 +518,9 @@
 #pragma mark - 用来显示时间的view在时间发生变化时所作的操作
 -(void)timeValueChangingWithValue:(float)value{
     if (value > _touchBeginValue) {
-        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_r.png"];
+        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_r"];
     }else if(value < _touchBeginValue){
-        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_l.png"];
+        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_l"];
     }
     _timeView.hidden = NO;
     NSString * tempTime = calculateTimeWithTimeFormatter(value);
@@ -508,14 +539,14 @@
 -(void)playOrPause{
     if (!self.isPlaying) {
         [self.viewAVplayer play];
-        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_pause_f_p.png"] forState:UIControlStateNormal];
+        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_pause_f_p"] forState:UIControlStateNormal];
         _isPlaying = YES;
         if ([self.delegate respondsToSelector:@selector(pause)]) {
             [self.delegate pause];
         }
     }else{
         [self.viewAVplayer pause];
-        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_play_f_p.png"] forState:UIControlStateNormal];
+        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_play_f_p"] forState:UIControlStateNormal];
         _isPlaying = NO;
         if ([self.delegate respondsToSelector:@selector(play)]) {
             [self.delegate play];
@@ -556,8 +587,10 @@
 }
 #pragma mark - 控制条隐藏
 -(void)controlViewHidden{
+    
     _topView.hidden = YES;
     _bottomView.hidden = YES;
+    self.lockButton.hidden = YES;
     if (_isFullScreen) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES];
     }
@@ -565,8 +598,16 @@
 }
 #pragma mark - 控制条退出隐藏
 -(void)controlViewOutHidden{
-    _topView.hidden = NO;
-    _bottomView.hidden = NO;
+    // 全屏才显示锁按钮
+    if (_isFullScreen) {
+       self.lockButton.hidden = NO;
+    }
+    if (!_isLock) {
+        _topView.hidden = NO;
+        _bottomView.hidden = NO;
+    } else {
+        
+    }
     if ([UIApplication sharedApplication].statusBarHidden) {
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
@@ -753,7 +794,44 @@
             break;
     }
 }
-
+#pragma mark - 锁住屏幕
+- (IBAction)lockScreen:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    _isLock = sender.selected;
+    if (_isLock) {
+        _canFullScreen = NO;
+        [self controlViewHidden];
+    }else {
+        _canFullScreen = YES;
+        [self controlViewOutHidden];
+    }
+}
+////锁住
+//- (void)lock {
+//    _canFullScreen = NO;
+//    self.lockButton.hidden = NO;
+//
+//    _topView.hidden = YES;
+//    _bottomView.hidden = YES;
+//    self.lockButton.hidden = YES;
+//    if (_isFullScreen) {
+//        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+//    }
+//
+//    
+//    __weak LRLAVPlayerView *weakSelf = self;
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        weakSelf.lockButton.hidden = YES;
+//    });
+//}
+////解锁
+//- (void)unLock {
+//    _canFullScreen = YES;
+////    [self controlViewOutHidden];
+//    self.lockButton.hidden = NO;
+//    _topView.hidden = NO;
+//    _bottomView.hidden = NO;
+//}
 #pragma mark - 以下是用来处理全屏旋转
 -(void)toOrientation:(UIInterfaceOrientation)orientation{
     if (!_canFullScreen) {
@@ -802,21 +880,23 @@
     }
     return CGAffineTransformIdentity;
 }
-
+// 竖屏
 -(void)toPortraitUpdate{
     _isFullScreen = NO;
     self.exitScreenBtn.hidden = YES;
+    self.lockButton.hidden = YES;
     //处理状态条
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     if ([UIApplication sharedApplication].statusBarHidden) {
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
-    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_mini_f_p.png"] forState:UIControlStateNormal];
+    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_mini_f_p"] forState:UIControlStateNormal];
 }
-
+// 横屏
 -(void)toLandscapeUpdate{
     _isFullScreen = YES;
     self.exitScreenBtn.hidden = NO;
+    self.lockButton.hidden = NO;
     //处理状态条
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     if (self.bottomView.hidden) {
@@ -824,7 +904,7 @@
     }else{
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
-    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_full_f_p.png"] forState:UIControlStateNormal];
+    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_full_f_p"] forState:UIControlStateNormal];
 }
 
 

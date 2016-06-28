@@ -28,7 +28,7 @@
                         <constraint firstAttribute="height" constant="6" id="GhT-Le-74R"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_new_brightness_day.png" translatesAutoresizingMaskIntoConstraints="NO" id="q3Z-D1-tk2">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_new_brightness_day" translatesAutoresizingMaskIntoConstraints="NO" id="q3Z-D1-tk2">
                     <rect key="frame" x="30" y="30" width="95" height="95"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="q3Z-D1-tk2" secondAttribute="height" multiplier="1:1" id="SQx-kj-PIr"/>
@@ -63,6 +63,6 @@
         </view>
     </objects>
     <resources>
-        <image name="play_new_brightness_day.png" width="80" height="80"/>
+        <image name="play_new_brightness_day" width="80" height="80"/>
     </resources>
 </document>

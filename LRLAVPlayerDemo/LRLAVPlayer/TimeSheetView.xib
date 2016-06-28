@@ -22,7 +22,7 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress_icon_l.png" translatesAutoresizingMaskIntoConstraints="NO" id="XFM-wM-YWm">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress_icon_l" translatesAutoresizingMaskIntoConstraints="NO" id="XFM-wM-YWm">
                     <rect key="frame" x="54" y="12" width="43" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="XFM-wM-YWm" secondAttribute="height" multiplier="43:25" id="bES-Dz-e0A"/>
@@ -54,6 +54,6 @@
         </view>
     </objects>
     <resources>
-        <image name="progress_icon_l.png" width="128" height="100"/>
+        <image name="progress_icon_l" width="65" height="50"/>
     </resources>
 </document>
