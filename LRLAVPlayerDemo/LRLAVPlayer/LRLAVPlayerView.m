@@ -214,8 +214,8 @@
 
 #pragma mark - 对xib拖拽的progressView和Slider重新布局
 -(void)reConfigSlider{
-    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select"] forState:UIControlStateNormal];
-    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select"] forState:UIControlStateHighlighted];
+    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select.png"] forState:UIControlStateNormal];
+    [self.videoSlider setThumbImage:[UIImage imageNamed:@"movieTicketsPayType_select.png"] forState:UIControlStateHighlighted];
     self.videoSlider.maximumTrackTintColor = [UIColor clearColor];
     self.videoProgressView.userInteractionEnabled = YES;
     _tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(progressTapAct:)];
@@ -487,9 +487,9 @@
 #pragma mark - 用来显示时间的view在时间发生变化时所作的操作
 -(void)timeValueChangingWithValue:(float)value{
     if (value > _touchBeginValue) {
-        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_r"];
+        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_r.png"];
     }else if(value < _touchBeginValue){
-        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_l"];
+        _timeView.sheetStateImageView.image = [UIImage imageNamed:@"progress_icon_l.png"];
     }
     _timeView.hidden = NO;
     NSString * tempTime = calculateTimeWithTimeFormatter(value);
@@ -508,14 +508,14 @@
 -(void)playOrPause{
     if (!self.isPlaying) {
         [self.viewAVplayer play];
-        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_pause_f_p"] forState:UIControlStateNormal];
+        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_pause_f_p.png"] forState:UIControlStateNormal];
         _isPlaying = YES;
         if ([self.delegate respondsToSelector:@selector(pause)]) {
             [self.delegate pause];
         }
     }else{
         [self.viewAVplayer pause];
-        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_play_f_p"] forState:UIControlStateNormal];
+        [self.playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"ad_play_f_p.png"] forState:UIControlStateNormal];
         _isPlaying = NO;
         if ([self.delegate respondsToSelector:@selector(play)]) {
             [self.delegate play];
@@ -811,7 +811,7 @@
     if ([UIApplication sharedApplication].statusBarHidden) {
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
-    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_mini_f_p"] forState:UIControlStateNormal];
+    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_mini_f_p.png"] forState:UIControlStateNormal];
 }
 
 -(void)toLandscapeUpdate{
@@ -824,7 +824,7 @@
     }else{
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
-    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_full_f_p"] forState:UIControlStateNormal];
+    [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_full_f_p.png"] forState:UIControlStateNormal];
 }
 
 
