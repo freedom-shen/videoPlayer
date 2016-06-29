@@ -10,7 +10,6 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 #import "LRLAVPlayerView.h"
-#import "TestViewController.h"
 #import "LRLAVPlayerController.h"
 
 @interface LRLAVPlayerController ()<LRLAVPlayDelegate, AVPictureInPictureControllerDelegate>
@@ -58,8 +57,6 @@
 }
 //下一页
 - (IBAction)nextPage:(id)sender {
-    TestViewController * test = [[TestViewController alloc] init];
-    [self.navigationController pushViewController:test animated:YES];
 }
 - (IBAction)startPiP:(id)sender {
 //    if ([AVPictureInPictureController isPictureInPictureSupported]) {
@@ -76,9 +73,9 @@
 #pragma mark - 创建用于播放的View
 -(void)createAVPlayerView{
     //固定的实例化方法
-    self.avplayerView = [LRLAVPlayerView avplayerViewWithVideoUrlStr:@"http://baobab.wdjcdn.com/1463028607774b.mp4" andInitialHeight:200.0 andSuperView:self.view];
+    self.avplayerView = [LRLAVPlayerView avplayerViewWithVideoUrlStr:@"http://baobab.wdjcdn.com/1463028607774b.mp4" ];
     self.avplayerView.delegate = self;
-    [self.view addSubview:self.avplayerView];
+//    [self.view addSubview:self.avplayerView];
     __weak LRLAVPlayerController * weakSelf = self;
     //我的播放器依赖 Masonry 第三方库
     [self.avplayerView setPositionWithPortraitBlock:^(MASConstraintMaker *make) {

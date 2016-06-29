@@ -14,8 +14,6 @@
 		FC51F13B1BFC1A5E00E5BDA6 /* BaseNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC51F1071BFC1A5E00E5BDA6 /* BaseNavViewController.m */; };
 		FC51F13C1BFC1A5E00E5BDA6 /* LRLAVPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC51F1091BFC1A5E00E5BDA6 /* LRLAVPlayerController.m */; };
 		FC51F13D1BFC1A5E00E5BDA6 /* LRLAVPlayerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC51F10A1BFC1A5E00E5BDA6 /* LRLAVPlayerController.xib */; };
-		FC51F13E1BFC1A5E00E5BDA6 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC51F10C1BFC1A5E00E5BDA6 /* TestViewController.m */; };
-		FC51F13F1BFC1A5E00E5BDA6 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC51F10D1BFC1A5E00E5BDA6 /* TestViewController.xib */; };
 		FC51F1421BFC1A5E00E5BDA6 /* LRLAVPlayerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = FC51F1131BFC1A5E00E5BDA6 /* LRLAVPlayerTool.m */; };
 		FC51F1441BFC1A5E00E5BDA6 /* LRLAVPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC51F1161BFC1A5E00E5BDA6 /* LRLAVPlayerView.xib */; };
 		FC51F1451BFC1A5E00E5BDA6 /* LRLLightView.m in Sources */ = {isa = PBXBuildFile; fileRef = FC51F1181BFC1A5E00E5BDA6 /* LRLLightView.m */; };
@@ -48,9 +46,6 @@
 		FC51F1081BFC1A5E00E5BDA6 /* LRLAVPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRLAVPlayerController.h; sourceTree = "<group>"; };
 		FC51F1091BFC1A5E00E5BDA6 /* LRLAVPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRLAVPlayerController.m; sourceTree = "<group>"; };
 		FC51F10A1BFC1A5E00E5BDA6 /* LRLAVPlayerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRLAVPlayerController.xib; sourceTree = "<group>"; };
-		FC51F10B1BFC1A5E00E5BDA6 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		FC51F10C1BFC1A5E00E5BDA6 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
-		FC51F10D1BFC1A5E00E5BDA6 /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
 		FC51F10F1BFC1A5E00E5BDA6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC51F1111BFC1A5E00E5BDA6 /* LRLAVPlayerDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRLAVPlayerDefine.h; sourceTree = "<group>"; };
 		FC51F1121BFC1A5E00E5BDA6 /* LRLAVPlayerTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRLAVPlayerTool.h; sourceTree = "<group>"; };
@@ -143,9 +138,6 @@
 				FC51F1081BFC1A5E00E5BDA6 /* LRLAVPlayerController.h */,
 				FC51F1091BFC1A5E00E5BDA6 /* LRLAVPlayerController.m */,
 				FC51F10A1BFC1A5E00E5BDA6 /* LRLAVPlayerController.xib */,
-				FC51F10B1BFC1A5E00E5BDA6 /* TestViewController.h */,
-				FC51F10C1BFC1A5E00E5BDA6 /* TestViewController.m */,
-				FC51F10D1BFC1A5E00E5BDA6 /* TestViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -279,7 +271,6 @@
 				FC51F13D1BFC1A5E00E5BDA6 /* LRLAVPlayerController.xib in Resources */,
 				1A8F7A361D2240BB008F2FFE /* LRLAVPlayer.xcassets in Resources */,
 				FC51F1441BFC1A5E00E5BDA6 /* LRLAVPlayerView.xib in Resources */,
-				FC51F13F1BFC1A5E00E5BDA6 /* TestViewController.xib in Resources */,
 				FC51F1481BFC1A5E00E5BDA6 /* TimeSheetView.xib in Resources */,
 				FC51F1461BFC1A5E00E5BDA6 /* LRLLightView.xib in Resources */,
 				FC51F13A1BFC1A5E00E5BDA6 /* LaunchScreen.xib in Resources */,
@@ -310,7 +301,6 @@
 				FC51F1511BFC1A5E00E5BDA6 /* NSArray+MASAdditions.m in Sources */,
 				FC51F13B1BFC1A5E00E5BDA6 /* BaseNavViewController.m in Sources */,
 				FC51F1451BFC1A5E00E5BDA6 /* LRLLightView.m in Sources */,
-				FC51F13E1BFC1A5E00E5BDA6 /* TestViewController.m in Sources */,
 				FC51F1501BFC1A5E00E5BDA6 /* MASViewConstraint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

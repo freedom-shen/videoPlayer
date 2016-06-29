@@ -142,7 +142,7 @@
 /**
  * @b 竖屏的限制block
  */
-@property (nonatomic, copy) LayoutBlock portraitBlock;
+//@property (nonatomic, copy) LayoutBlock portraitBlock;
 
 /**
  * @b 横屏的限制block
@@ -170,6 +170,12 @@
 @implementation LRLAVPlayerView
 
 #pragma mark - 实例化方法
+
+
++ (LRLAVPlayerView *)avplayerViewWithVideoUrlStr:(NSString *)urlStr {
+    return [self avplayerViewWithVideoUrlStr:urlStr andInitialHeight:0 andSuperView:Window];
+}
+
 +(LRLAVPlayerView *)avplayerViewWithVideoUrlStr:(NSString *)urlStr andInitialHeight:(float)height andSuperView:(UIView *)superView{
     static float videoHeight = 0.0;
     videoHeight = height;
@@ -678,7 +684,7 @@
             static float staticHeight = 0;
             staticHeight = size.height/size.width * SCREEN_WIDTH;
             self->_videoHeight = &(staticHeight);
-            [self mas_remakeConstraints:self.portraitBlock];
+//            [self mas_remakeConstraints:self.portraitBlock];
         }
         //用来监测屏幕旋转
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -753,9 +759,9 @@
 #pragma mark -------------------------
 #pragma mark - 初始化位置
 -(void)setPositionWithPortraitBlock:(LayoutBlock)porBlock andLandscapeBlock:(LayoutBlock)landscapeBlock{
-    self.portraitBlock = porBlock;
+//    self.portraitBlock = porBlock;
     self.landscapeBlock = landscapeBlock;
-    [self mas_makeConstraints:porBlock];
+//    [self mas_makeConstraints:porBlock];
     [self scrollToLead];
     //开始播放, 这个只是为了调一下get方法
     [self.viewAVplayer play];
@@ -850,7 +856,7 @@
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         [self removeFromSuperview];
         [self.avplayerSuperView addSubview:self];
-        [self mas_remakeConstraints:self.portraitBlock];
+//        [self mas_remakeConstraints:self.portraitBlock];
     }else{
         if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
             [self removeFromSuperview];
