@@ -206,14 +206,14 @@
 #pragma mark - 初始化播放控制信息
 -(void)initialSelfView{
     [self.actIndicator startAnimating];
-    self.userInteractionEnabled = NO;
+    self.userInteractionEnabled = YES;
     self.multipleTouchEnabled = YES;
     self.exitScreenBtn.hidden = YES;
     self.lockButton.hidden = YES;
     self.controlType = noneControl;
     [self.exitOrInScreenBt setBackgroundImage:[UIImage imageNamed:@"play_mini_f_p"] forState:UIControlStateNormal];
     _isFisrtConfig = YES;
-    _canFullScreen = NO;
+    _canFullScreen = YES;
     _isFullScreen = NO;
     //为了记住destroy时播放状态, 如果不是destroy的, 则初始值为播放,否则为原来的状态
     if (!_destoryed) {
@@ -226,6 +226,7 @@
     self.lockButton.layer.cornerRadius = 20;
     self.lockButton.layer.masksToBounds = YES;
     self.lockButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    
 }
 
 #pragma mark - 对xib拖拽的progressView和Slider重新布局
@@ -567,6 +568,11 @@
     [self seekToTheTimeValue:self.videoSlider.value];
     _tap.enabled = YES;
 }
+#pragma mark - 强制横屏
+-(void)scrollToLead {
+    [self toOrientation:UIInterfaceOrientationLandscapeRight];
+}
+
 #pragma mark - 用来控制显示亮度的view, 以及毛玻璃效果的view
 -(void)hideTheLightViewWithHidden:(BOOL)hidden{
     if (hidden) {
@@ -750,7 +756,7 @@
     self.portraitBlock = porBlock;
     self.landscapeBlock = landscapeBlock;
     [self mas_makeConstraints:porBlock];
-    
+    [self scrollToLead];
     //开始播放, 这个只是为了调一下get方法
     [self.viewAVplayer play];
 }

@@ -43,6 +43,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor darkGrayColor];
+    
+    [self createAVPlayerView];
 }
 //播放
 - (IBAction)playButtonClicked:(id)sender {
