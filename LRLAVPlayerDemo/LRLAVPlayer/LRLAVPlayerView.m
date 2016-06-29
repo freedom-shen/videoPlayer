@@ -142,7 +142,7 @@
 /**
  * @b 竖屏的限制block
  */
-@property (nonatomic, copy) LayoutBlock portraitBlock;
+//@property (nonatomic, copy) LayoutBlock portraitBlock;
 
 /**
  * @b 横屏的限制block
@@ -170,6 +170,12 @@
 @implementation LRLAVPlayerView
 
 #pragma mark - 实例化方法
+
+
++ (LRLAVPlayerView *)avplayerViewWithVideoUrlStr:(NSString *)urlStr {
+    return [self avplayerViewWithVideoUrlStr:urlStr andInitialHeight:0 andSuperView:Window];
+}
+
 +(LRLAVPlayerView *)avplayerViewWithVideoUrlStr:(NSString *)urlStr andInitialHeight:(float)height andSuperView:(UIView *)superView{
     static float videoHeight = 0.0;
     videoHeight = height;
@@ -335,11 +341,7 @@
 }
 
 -(void)addGesture{
-//    UITapGestureRecognizer * onceTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAct:)];
-//    onceTap.numberOfTapsRequired = 1;
-//    onceTap.numberOfTouchesRequired = 1;
-//    [self.clearView addGestureRecognizer:onceTap];
-    
+
     UITapGestureRecognizer * twiceTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAct:)];
     twiceTap.numberOfTapsRequired = 2;
     twiceTap.numberOfTouchesRequired = 1;
@@ -354,9 +356,8 @@
         return YES;
     }
 }
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-//    return NO;
-//}
+
+
 -(void)tapAct:(UITapGestureRecognizer *)tap{
     //点击一次
     if (tap.numberOfTapsRequired == 1) {
@@ -393,7 +394,7 @@
     
 }
 //触摸过程中
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     if(_isLock) {
         return;
     }
@@ -465,7 +466,7 @@
     }
 }
 //触摸结束
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     if(_isLock) {
         if (self.lockButton.hidden) {
             [self controlViewOutHidden];
@@ -506,7 +507,7 @@
 }
 
 #pragma mark - 用来控制移动过程中计算手指划过的时间
--(float)moveProgressControllWithTempPoint:(CGPoint)tempPoint{
+- (float)moveProgressControllWithTempPoint:(CGPoint)tempPoint{
     float tempValue = _touchBeginValue + TotalScreenTime * ((tempPoint.x - _touchBeginPoint.x)/SCREEN_WIDTH);
     if (tempValue > self.totalSeconds) {
         tempValue = self.totalSeconds;
@@ -611,8 +612,6 @@
     if (!_isLock) {
         _topView.hidden = NO;
         _bottomView.hidden = NO;
-    } else {
-        
     }
     if ([UIApplication sharedApplication].statusBarHidden) {
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
@@ -643,9 +642,10 @@
                 }else{
                     [self.viewAVplayer pause];
                 }
-                if (_destoryed) {
-                    [self seekToTheTimeValue:_destoryTempTime];
-                }
+//                if (_destoryed) {
+                _destoryTempTime = [[[NSUserDefaults standardUserDefaults] objectForKey:self.videoUrlStr] doubleValue];
+                [self seekToTheTimeValue:_destoryTempTime];
+//                }
             }
         }else if(self.avplayerItem.status == AVPlayerItemStatusFailed){    //加载失败
             AVDLog(@"AVPlayerItemStatusFailed: 视频播放失败");
@@ -678,7 +678,7 @@
             static float staticHeight = 0;
             staticHeight = size.height/size.width * SCREEN_WIDTH;
             self->_videoHeight = &(staticHeight);
-            [self mas_remakeConstraints:self.portraitBlock];
+//            [self mas_remakeConstraints:self.portraitBlock];
         }
         //用来监测屏幕旋转
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -746,26 +746,49 @@
     [self.viewAVplayer pause];
     self.playOrPauseBtn.selected = YES;
     _isPlaying = NO;
+    
+    [self exitOrInFullScreen:nil];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:self.videoUrlStr];
 }
 
 #pragma mark -------------------------
 #pragma mark - 以下是位置相关的操作
 #pragma mark -------------------------
 #pragma mark - 初始化位置
--(void)setPositionWithPortraitBlock:(LayoutBlock)porBlock andLandscapeBlock:(LayoutBlock)landscapeBlock{
-    self.portraitBlock = porBlock;
-    self.landscapeBlock = landscapeBlock;
-    [self mas_makeConstraints:porBlock];
-    [self scrollToLead];
-    //开始播放, 这个只是为了调一下get方法
-    [self.viewAVplayer play];
+- (void)start {
+
+    [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:self.videoUrlStr];
+    [self replay];
+
+}
+-(void)setPositionWithLandscapeBlock:(LayoutBlock)landscapeBlock {
+    [self setPositionWithPortraitBlock:nil andLandscapeBlock:landscapeBlock];
 }
 
+-(void)setPositionWithPortraitBlock:(LayoutBlock)porBlock andLandscapeBlock:(LayoutBlock)landscapeBlock{
+//    self.portraitBlock = porBlock;
+    self.landscapeBlock = landscapeBlock;
+//    [self mas_makeConstraints:porBlock];
+    [self scrollToLead];
+    //开始播放, 这个只是为了调一下get方法
+}
+//-(void)dealloc {
+//    NSLog(@"LRLAVPlayer is safe");
+//}
 #pragma mark - 处理旋转屏
 - (IBAction)exitOrInFullScreen:(id)sender {
     //如果全屏下
     if (_isFullScreen) {
         [self toOrientation:UIInterfaceOrientationPortrait];
+        if ([self.delegate respondsToSelector:@selector(didEndTime:)]) {
+            NSLog(@"%lld",self.avplayerItem.currentTime.value/self.avplayerItem.currentTime.timescale);
+            [self.delegate didEndTime:self.avplayerItem.currentTime.value/self.avplayerItem.currentTime.timescale];
+        }
+        [self destoryAVPlayer];
+        
+
+        [self removeFromSuperview];
+        
     }else{
         [self toOrientation:UIInterfaceOrientationLandscapeRight];
     }
@@ -774,6 +797,12 @@
 - (IBAction)exitFullScreen:(id)sender {
     if (_isFullScreen) {
         [self toOrientation:UIInterfaceOrientationPortrait];
+        if ([self.delegate respondsToSelector:@selector(didEndTime:)]) {
+            [self.delegate didEndTime:self.avplayerItem.currentTime.value/self.avplayerItem.currentTime.timescale];
+        }
+        [self destoryAVPlayer];
+
+        [self removeFromSuperview];
     }else{
         [self toOrientation:UIInterfaceOrientationLandscapeRight];
     }
@@ -850,7 +879,7 @@
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         [self removeFromSuperview];
         [self.avplayerSuperView addSubview:self];
-        [self mas_remakeConstraints:self.portraitBlock];
+//        [self mas_remakeConstraints:self.portraitBlock];
     }else{
         if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
             [self removeFromSuperview];
@@ -920,6 +949,9 @@
 
 -(void)destoryAVPlayer{
     _destoryTempTime = self.avplayerItem.currentTime.value/self.avplayerItem.currentTime.timescale;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@(_destoryTempTime) forKey:self.videoUrlStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     _destoryed = YES;
     self.userInteractionEnabled = NO;
     if (_hiddenTimer && _hiddenTimer.valid) {
@@ -954,7 +986,13 @@
     _viewAVplayer = nil;
 }
 -(void)replay{
-    [self initialSelfView];
+    if (!self.landscapeBlock) {
+        [self setPositionWithLandscapeBlock:^(MASConstraintMaker *make) {
+            make.width.equalTo(@(SCREEN_HEIGHT));
+            make.height.equalTo(@(SCREEN_WIDTH));
+            make.center.equalTo(Window);
+        }];
+    }
     [self.viewAVplayer play];
 }
 -(void)dealloc{
