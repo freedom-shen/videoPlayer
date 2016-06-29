@@ -1,3 +1,4 @@
+
 //
 //  LRLAVPlayerController.m
 //  
@@ -75,24 +76,15 @@
     //固定的实例化方法
     self.avplayerView = [LRLAVPlayerView avplayerViewWithVideoUrlStr:@"http://baobab.wdjcdn.com/1463028607774b.mp4" ];
     self.avplayerView.delegate = self;
-//    [self.view addSubview:self.avplayerView];
-    __weak LRLAVPlayerController * weakSelf = self;
-    //我的播放器依赖 Masonry 第三方库
-    [self.avplayerView setPositionWithPortraitBlock:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.view).with.offset(60);
-        make.left.equalTo(weakSelf.view);
-        make.right.equalTo(weakSelf.view);
-        //添加竖屏时的限制, 这条也是固定的, 因为: _videoHeight 是float* 类型, 我可以通过它, 动态改视频播放器的高度;
-        make.height.equalTo(@(*(weakSelf.avplayerView->_videoHeight)));
-    } andLandscapeBlock:^(MASConstraintMaker *make) {
-        make.width.equalTo(@(SCREEN_HEIGHT));
-        make.height.equalTo(@(SCREEN_WIDTH));
-        make.center.equalTo(Window);
-    }];
-    
-//    self.PiPVc = [[AVPictureInPictureController alloc] initWithPlayerLayer:(AVPlayerLayer *)self.avplayerView.layer];
-//    self.PiPVc.delegate = self;
-//    [self.PiPVc startPictureInPicture];
+
+    [self.avplayerView play];
+//    //我的播放器依赖 Masonry 第三方库
+//    [self.avplayerView setPositionWithLandscapeBlock:^(MASConstraintMaker *make) {
+//        make.width.equalTo(@(SCREEN_HEIGHT));
+//        make.height.equalTo(@(SCREEN_WIDTH));
+//        make.center.equalTo(Window);
+//    }];
+
 }
 
 - (void)pictureInPictureControllerWillStartPictureInPicture:(AVPictureInPictureController *)pictureInPictureController{

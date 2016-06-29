@@ -62,7 +62,7 @@ typedef enum : NSUInteger {
 /**
  * @b 设置初始位置block和, 全屏的block
  */
--(void)setPositionWithPortraitBlock:(LayoutBlock)porBlock andLandscapeBlock:(LayoutBlock)landscapeBlock;
+-(void)setPositionWithLandscapeBlock:(LayoutBlock)landscapeBlock;
 
 /**
  * @b 唯一的实例方法, 请不要用其他的实例方法
@@ -79,5 +79,8 @@ typedef enum : NSUInteger {
  * @b destory 后再次播放, 会记住之前的播放状态, 时间和是否暂停
  */
 -(void)replay;
+
+
+- (void)play;
 
 @end

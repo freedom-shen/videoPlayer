@@ -758,13 +758,25 @@
 #pragma mark - 以下是位置相关的操作
 #pragma mark -------------------------
 #pragma mark - 初始化位置
+- (void)play {
+    [self setPositionWithLandscapeBlock:^(MASConstraintMaker *make) {
+        make.width.equalTo(@(SCREEN_HEIGHT));
+        make.height.equalTo(@(SCREEN_WIDTH));
+        make.center.equalTo(Window);
+    }];
+    [self.viewAVplayer play];
+
+}
+-(void)setPositionWithLandscapeBlock:(LayoutBlock)landscapeBlock {
+    [self setPositionWithPortraitBlock:nil andLandscapeBlock:landscapeBlock];
+}
+
 -(void)setPositionWithPortraitBlock:(LayoutBlock)porBlock andLandscapeBlock:(LayoutBlock)landscapeBlock{
 //    self.portraitBlock = porBlock;
     self.landscapeBlock = landscapeBlock;
 //    [self mas_makeConstraints:porBlock];
     [self scrollToLead];
     //开始播放, 这个只是为了调一下get方法
-    [self.viewAVplayer play];
 }
 
 #pragma mark - 处理旋转屏
