@@ -52,7 +52,7 @@
 }
 //销毁
 - (IBAction)destoryButton:(id)sender {
-    [self.avplayerView destoryAVPlayer];
+//    [self.avplayerView destoryAVPlayer];
     [self.avplayerView removeFromSuperview];
     self.avplayerView = nil;
 }
@@ -77,7 +77,7 @@
     self.avplayerView = [LRLAVPlayerView avplayerViewWithVideoUrlStr:@"http://baobab.wdjcdn.com/1463028607774b.mp4" ];
     self.avplayerView.delegate = self;
 
-    [self.avplayerView play];
+    [self.avplayerView replay];
 //    //我的播放器依赖 Masonry 第三方库
 //    [self.avplayerView setPositionWithLandscapeBlock:^(MASConstraintMaker *make) {
 //        make.width.equalTo(@(SCREEN_HEIGHT));
@@ -105,7 +105,9 @@
 - (void)pictureInPictureController:(AVPictureInPictureController *)pictureInPictureController restoreUserInterfaceForPictureInPictureStopWithCompletionHandler:(void (^)(BOOL restored))completionHandler{
     NSLog(@"pip stop with handle");
 }
-
+-(void)didEndTime:(NSTimeInterval)havePlayTime {
+    
+}
 #pragma mark - 关闭设备自动旋转, 然后手动监测设备旋转方向来旋转avplayerView
 -(BOOL)shouldAutorotate{
     return NO;

@@ -31,6 +31,11 @@ typedef enum : NSUInteger {
 -(void)play;
 //暂停时调用的方法
 -(void)pause;
+/**
+ *  @param havePlayTime 总计播放时间
+ */
+- (void)didEndTime:(NSTimeInterval)havePlayTime;
+
 @end
 
 @interface LRLAVPlayerView : UIView
@@ -56,7 +61,9 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy) NSString * videoUrlStr;
 
-
+/**
+ *  跳转到指定位置
+ */
 -(void)seekToTheTimeValue:(float)value;
 
 /**
@@ -70,17 +77,16 @@ typedef enum : NSUInteger {
 +(LRLAVPlayerView *)avplayerViewWithVideoUrlStr:(NSString *)urlStr;
 //                               andInitialHeight:(float)height andSuperView:(UIView *)superView;
 
-/**
- * @b 暂时性的销毁播放器, 用于节省内存, 再用时可以回到销毁点继续播放
- */
--(void)destoryAVPlayer;
+;
 
 /**
  * @b destory 后再次播放, 会记住之前的播放状态, 时间和是否暂停
  */
 -(void)replay;
 
-
-- (void)play;
+/**
+ *  开始播放 忽略上次播放
+ */
+- (void)start;
 
 @end
